@@ -1,0 +1,43 @@
+<!doctype html>
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+<h1>
+  EZ Delivery split calculator
+</h1>
+<div>
+  <label>Your items subtotal</label><input id="yours" type="number"></input>
+</div>
+<div>
+  <label>Their items subtotal</label><input id="theirs" type="number"></input>
+</div>
+<div>
+  <label>Order Total</label><input id="total" type="number"></input>
+</div>
+<div id="result" class="hidden">
+  <p>send them a venmo charge for $<span id="amount"></span>
+</div>
+
+<script>
+function update() {
+  const theirs = parseFloat(document.querySelector("#theirs").value);
+  const yours = parseFloat(document.querySelector("#yours").value);
+  const total = parseFloat(document.querySelector("#total").value);
+  const extraCharges = total - (theirs + yours);
+  const percentTheirs = theirs / (theirs + yours);
+  const theirShare = theirs + (percentTheirs * extraCharges);
+  
+  const result = document.querySelector("#result");
+  const amount = document.querySelector("#amount");
+  if (isNaN(theirShare)) {
+    result.classList.add("hidden");
+  } else {
+    amount.textContent = theirShare.toFixed(2);
+    result.classList.remove("hidden");
+  }
+}
+
+document.addEventListener('keyup', update);
+</script>
